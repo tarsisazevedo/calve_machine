@@ -16,3 +16,22 @@ class CalveMachineSpec(unittest.TestCase):
         prog.age |should| be(29)
         prog.languages |should| equal_to(['eiffel', 'io', 'erlang'])
 
+
+    def it_inherits_insemination(self):
+        @inseminate
+        def programmer(p):
+            p.name = 'Sheldon Cooper'
+            p.age = 29
+            p.languages = ['eiffel', 'io', 'erlang']
+
+        @inseminate(sperm_from='programmer')
+        def python_programmer(p):
+            p.languages = ['python']
+            p.foo = 'spam'
+
+        prog = pregnant.calve('python_programmer')
+        prog.name |should| equal_to('Sheldon Cooper')
+        prog.age |should| be(29)
+        prog.languages |should| equal_to(['python'])
+        prog.foo |should| equal_to('spam')
+
