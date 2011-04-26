@@ -35,3 +35,14 @@ class CalveMachineSpec(unittest.TestCase):
         prog.languages |should| equal_to(['python'])
         prog.foo |should| equal_to('spam')
 
+        @inseminate(sperm_from='python_programmer')
+        def zope_programmer(p):
+            p.languages = ['zcml']
+            p.age = 30
+
+        prog = pregnant.calve('zope_programmer')
+        prog.name |should| equal_to('Sheldon Cooper, Ph.D.')
+        prog.age |should| be(30)
+        prog.languages |should| equal_to(['zcml'])
+        prog.foo |should| equal_to('spam')
+

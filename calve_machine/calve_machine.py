@@ -9,11 +9,15 @@ class CalveMachine(object):
             self.sperm_inheritance[sperm] = self.sperms[sperm_from]
 
     def calve(self, sperm_name):
-        sperm = self.sperms[sperm_name]
+        this_sperm = self.sperms[sperm_name]
         ovum = type('object', (object,), {})()
-        if self.sperm_inheritance.has_key(sperm):
-            self.sperm_inheritance[sperm](ovum)
-        sperm(ovum)
+        sperm_hierarchy = [this_sperm]
+        while self.sperm_inheritance.has_key(this_sperm):
+            ancient_sperm = self.sperm_inheritance[this_sperm]
+            sperm_hierarchy.insert(0, ancient_sperm)
+            this_sperm = ancient_sperm
+        for sperm in sperm_hierarchy:
+            sperm(ovum)
         return ovum
 
 
